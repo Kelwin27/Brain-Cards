@@ -1,4 +1,5 @@
 import { createElement } from "../helper/createElement.js"
+import { sklonenie } from "../helper/ending.js";
 
 export const createCategory = (app) => {
 
@@ -24,37 +25,34 @@ export const createCategory = (app) => {
         });
         item.dataset.id = data.id;
 
-        const button1 = createElement('button', {
+        const buttonCard = createElement('button', {
             className: 'category__card',
         });
-        item.append(button1);
 
-        const span1 = createElement('span', {
+        const spanTitle = createElement('span', {
             className: 'category__title',
             textContent: data.title,
         });
-        button1.append(span1);
 
-        const span2 = createElement('span', {
+        const spanLength = createElement('span', {
             className: 'category__pairs',
-            textContent: `${data.length} пар`,
+            textContent: `${data.length} ${sklonenie(data.length, ['пара', 'пары', 'пар'])}`,
         });
-        button1.append(span2);
+        buttonCard.append(spanTitle, spanLength);
 
-        const button2 = createElement('button', {
+        const buttonEdit = createElement('button', {
             className: 'category__btn category__edit',
             ariaLabel: 'редактировать',
         });
-        item.append(button2);
 
-        const button3 = createElement('button', {
+        const buttonDelit = createElement('button', {
             className: 'category__btn category__del',
             ariaLabel: 'удалить',
         });
-        item.append(button3);
+        item.append(buttonCard, buttonEdit, buttonDelit);
 
         return item;
-    }
+    };
 
     const mount = (data) => {
         categoryList.textContent = '';
