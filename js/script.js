@@ -22,6 +22,7 @@ const initApp = async () => {
         e?.preventDefault();
         allSectionUnmount();
         const categories = await fetchCategories();
+        headerObject.updateHeaderTitle( 'Категории' );
 
         if (categories.error) {
             app.append(createElement('p', {
@@ -51,16 +52,19 @@ const initApp = async () => {
             editCategoryObject.mount(dataCards);
             return;
         }
+        if (target.closest('.category__del')){
+            console.log('del');
+            return;
+        };
+        if (categoryItem) {
+            allSectionUnmount();
+            const dataCard = await fetchCards(categoryItem.dataset.id);
+            headerObject.updateHeaderTitle(dataCard.title);
+            pairsObject.mount(dataCard);
+            return;
+        };
     });
-
-    categoryObject.categoryList.addEventListener('click', async ({ target }) => {
-        allSectionUnmount();
-        const categoryItem = target.closest('.category__item');
-        const dataCard = await fetchCards(categoryItem.dataset.id);
-        pairsObject.mount(dataCard.pairs[0])
-        return;
-        }
-    );
-}
+    pairsObject.buttonReturnCard.addEventListener('click', renderIndex);
+};
 
 initApp()
